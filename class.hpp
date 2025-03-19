@@ -45,12 +45,6 @@ public:
 		param_count = il2cpp_api::il2cpp_method_get_param_count(method_info);
 		for (int i = 0; i < param_count; i++) {
 			par.name = il2cpp_api::il2cpp_method_get_param_name(method_info, i);
-			replace(name, ".", "_");
-			replace(name, "/", "_");
-			replace(name, "<", "_");
-			replace(name, ">", "_");
-			replace(name, "`", "_");
-			replace(name, "|", "_");
 			par.type = il2cpp_api::il2cpp_type_get_name(il2cpp_api::il2cpp_method_get_param(method_info, i));
 
 			parametrs.push_back(par);

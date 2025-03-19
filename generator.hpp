@@ -34,9 +34,13 @@ public:
         to_write += "namespace " + klass->get_name() + " {\n";
 
         for (int i = 0; i < klass->get_method_count(); i++) {
+            int need_to_skip = false;
             c_Method method = klass->get_method(i);
-            for (auto meth : generated_methodes)
-                if (meth.get_name() == method.get_name()) continue;
+            for (auto meth : generated_methodes) {
+                if (meth.get_name() == method.get_name())
+                    need_to_skip = true;
+            }
+            if (need_to_skip) continue;
             add_tab(to_write)
                 to_write += "uintptr_t " + method.get_name() + "_va" + "() {\n";
             add_tab(to_write);

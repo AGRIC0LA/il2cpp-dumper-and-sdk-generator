@@ -47,7 +47,7 @@ void initialize() {
 	for (auto dumpd : all_dumped_classes) {
 		c_Generator generator = c_Generator(dumpd, path_to_dump);
 	}
-	std::cout << "Dump succesfly loaded in directory" << path_to_dump << std::endl;
+	std::cout << "Dump succesfly loaded in directory " << path_to_dump << std::endl;
 	delete dumper;
 }
 
