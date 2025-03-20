@@ -33,6 +33,7 @@ private:
 	std::string return_type;
 	std::vector<parametr> parametrs;
 	int param_count;
+	bool is_static = false;
 public:
 	c_Method() {}
 
@@ -40,6 +41,8 @@ public:
 		if (!method_info_) return;
 		parametr par;
 		method_info = method_info_;
+		if ((il2cpp_api::il2cpp_method_get_flags(method_info, reinterpret_cast<uint32_t*>(method_info->iflags)) & METHOD_ATTRIBUTE_STATIC) != 0)
+			is_static = true;
 		name = il2cpp_api::il2cpp_method_get_name(method_info);
 		return_type = il2cpp_api::il2cpp_type_get_name(il2cpp_api::il2cpp_method_get_return_type(method_info));
 		param_count = il2cpp_api::il2cpp_method_get_param_count(method_info);
@@ -77,16 +80,21 @@ public:
 	uintptr_t get_rva(){
 		return rva;
 	}
+
+	bool get_is_static() {
+		return is_static;
+	}
 };
 
 class c_Field 
 {
 private:
-	FieldInfo* field_info;
 	std::string name;
 	std::string type;
 	int offset;
+	bool is_static = false;
 public:
+	FieldInfo* field_info;
 	c_Field() {}
 
 	c_Field(FieldInfo* field_info_) {
@@ -94,6 +102,9 @@ public:
 		field_info = field_info_;
 		name = il2cpp_api::il2cpp_field_get_name(field_info);
 		type = il2cpp_api::il2cpp_type_get_name(il2cpp_api::il2cpp_field_get_type(field_info));
+		Il2CppType* type = il2cpp_api::il2cpp_field_get_type(field_info);
+		if ((type->attrs) & (FIELD_ATTRIBUTE_STATIC))
+			is_static = true;
 		offset = il2cpp_api::il2cpp_field_get_offset(field_info);
 	}
 
@@ -113,6 +124,10 @@ public:
 
 	int get_offset() {
 		return offset;
+	}
+
+	bool get_is_static() {
+		return is_static;
 	}
 };
 
@@ -145,13 +160,13 @@ public:
 class c_Klass
 {
 private:
-	Il2CppClass* il2cpp_class;
 	std::string name;
 	std::string name_space;
 	std::string assembly_name;
 	std::vector<c_Method> method_list;
 	std::vector<c_Field> field_list;
 public:
+	Il2CppClass* il2cpp_class;
 	void parse_methods() {
 		MethodInfo* il2cpp_method;
 		void* iter = nullptr;

@@ -1,5 +1,5 @@
 #pragma once
-#define add_tab(str) str += " ";str += " ";str += " ";str += " ";str += " ";
+#define add_tab(str) str += ' ';str += ' ';str += ' ';str += ' ';str += ' ';
 	
 class c_Generator
 {
@@ -51,10 +51,12 @@ public:
 
             add_tab(to_write);
             to_write += type_to_cpp(method.get_return_type()) + " " + method.get_name();
-            to_write += "(uintptr_t this_";
+            to_write += "(";
+            if (!method.get_is_static())
+                to_write += "uintptr_t this_";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
-                if (i != method.get_parametrs_count())
+                if (i != 0 && i != method.get_parametrs_count())
                     to_write += ", ";
                 to_write += type_to_cpp(par.type) + " " + par.name;
             }
@@ -62,10 +64,12 @@ public:
             add_tab(to_write);
             add_tab(to_write);
             to_write += "typedef " + type_to_cpp(method.get_return_type()) + "(__fastcall* hui_t)";
-            to_write += "(uintptr_t";
+            to_write += "(";
+            if (!method.get_is_static())
+                to_write += "uintptr_t"; 
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
-                if (i != method.get_parametrs_count())
+                if (i != 0 && i != method.get_parametrs_count())
                     to_write += ", ";
                 to_write += type_to_cpp(par.type);
             }
@@ -75,10 +79,12 @@ public:
             to_write += "hui_t hui = (hui_t)(" + method.get_name() + "_va" + "());\n";
             add_tab(to_write);
             add_tab(to_write);
-            to_write += "return hui(this_";
+            to_write += "return hui(";
+            if (!method.get_is_static())
+                to_write += "this_";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
-                if (i != method.get_parametrs_count())
+                if (i != 0 && i != method.get_parametrs_count())
                     to_write += ", ";
                 to_write += par.name;
             }
@@ -90,13 +96,25 @@ public:
 
         for (int i = 0; i < klass->get_field_count(); i++) {
             c_Field field = klass->get_field(i);
-            add_tab(to_write);
-            to_write += type_to_cpp(field.get_type()) + " " + field.get_name() + "(uintptr_t this_) {\n";
-            add_tab(to_write);
-            add_tab(to_write);
-            to_write += "return *(" + type_to_cpp(field.get_type()) + "*)" + "(this_ + " + std::to_string(field.get_offset()) + ");\n";
-            add_tab(to_write);
-            to_write += "}\n";
+            if (!field.get_is_static()) {
+                add_tab(to_write);
+                to_write += type_to_cpp(field.get_type()) + "* " + field.get_name() + "(uintptr_t this_) {\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "return (" + type_to_cpp(field.get_type()) + "*)" + "(this_ + " + std::to_string(field.get_offset()) + ");\n";
+                add_tab(to_write);
+                to_write += "}\n";
+            }
+            else {
+               // add_tab(to_write);
+               // to_write += type_to_cpp(field.get_type()) + "* " + field.get_name() + "(uintptr_t this_) {\n";
+               // add_tab(to_write);
+               // add_tab(to_write);
+               // to_write += "return (" + type_to_cpp(field.get_type()) + "*)" + "(this_ + " + std::to_string(module_base) + ");\n";
+               // add_tab(to_write);
+               // to_write += "}\n";
+               // std::cout << field.get_name() << " " << field.field_info << std::endl;
+            }
         }
 
         to_write += "}\n";
