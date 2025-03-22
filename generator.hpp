@@ -124,11 +124,11 @@ public:
                 add_tab(to_write);
                 add_tab(to_write);
                 add_tab(to_write);
-                to_write += "if (assembly_->aname.name == ";
+                to_write += "if (strcmp(assembly_->aname.name, ";
                 to_write += "\"";
                 to_write += klass->get_assembly_name();
                 to_write += "\"";
-                to_write += ");\n";
+                to_write += ") == 0);\n";
                 add_tab(to_write);
                 add_tab(to_write);
                 add_tab(to_write);
