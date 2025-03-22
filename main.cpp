@@ -22,6 +22,7 @@ void attach_console() {
 
 void initialize() {
 	const std::string path_to_dump = "C:\\Users\\z\\AppData\\Roaming\\Dump";
+
 	std::filesystem::create_directory(path_to_dump);
 	std::filesystem::create_directory(path_to_dump + "\\UnityEngine");
 	std::filesystem::create_directory(path_to_dump + "\\GameClasses");
@@ -30,6 +31,19 @@ void initialize() {
 	attach_console();
 	std::cout << "Dumper loaded" << std::endl;
 	il2cpp_api::initialize();
+
+	std::string path_to_init = path_to_dump + "\\init.hpp";
+	std::wstring wpath_to_init(path_to_init.begin(), path_to_init.end());
+	auto cw_path_to_dump = wpath_to_init.c_str();
+	HANDLE handle = CreateFileW(cw_path_to_dump, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_NEW, FILE_ATTRIBUTE_ARCHIVE, NULL);
+	CloseHandle(handle);
+	std::ofstream file(cw_path_to_dump, std::ios::app);
+	if (!file.is_open()) {
+		std::cout << "error with create init file" << std::endl;
+		return;
+	}
+	file << "#pragma once\n namespace il2cpp_sdk_gen { Il2CppDomain* domain; std::vector<Il2CppAssembly*> assembly_list; void init() { domain = il2cpp_api::il2cpp_domain_get(); if (!domain) return; size_t size; Il2CppAssembly** assemblies = il2cpp_api::il2cpp_domain_get_assemblies(domain, &size); if (!assemblies) return; for (int i = 0; i < size; i++) { Il2CppAssembly* assembly = (Il2CppAssembly*)assemblies[i]; if (!assembly) continue; assembly_list.push_back(assembly); } } }";
+	file.close();
 
 	c_Dumper* dumper = new c_Dumper;
 

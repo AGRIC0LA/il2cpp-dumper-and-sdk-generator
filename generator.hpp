@@ -53,7 +53,7 @@ public:
             to_write += type_to_cpp(method.get_return_type()) + " " + method.get_name();
             to_write += "(";
             if (!method.get_is_static())
-                to_write += "uintptr_t this_";
+                to_write += "uintptr_t this_, ";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
@@ -66,7 +66,7 @@ public:
             to_write += "typedef " + type_to_cpp(method.get_return_type()) + "(__fastcall* hui_t)";
             to_write += "(";
             if (!method.get_is_static())
-                to_write += "uintptr_t"; 
+                to_write += "uintptr_t, "; 
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
@@ -81,7 +81,7 @@ public:
             add_tab(to_write);
             to_write += "return hui(";
             if (!method.get_is_static())
-                to_write += "this_";
+                to_write += "this_, ";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
@@ -106,14 +106,57 @@ public:
                 to_write += "}\n";
             }
             else {
-               // add_tab(to_write);
-               // to_write += type_to_cpp(field.get_type()) + "* " + field.get_name() + "(uintptr_t this_) {\n";
-               // add_tab(to_write);
-               // add_tab(to_write);
-               // to_write += "return (" + type_to_cpp(field.get_type()) + "*)" + "(this_ + " + std::to_string(module_base) + ");\n";
-               // add_tab(to_write);
-               // to_write += "}\n";
-               // std::cout << field.get_name() << " " << field.field_info << std::endl;
+                add_tab(to_write);
+                to_write += type_to_cpp(field.get_type()) + " " + field.get_name() + "(uintptr_t this_) {\n";
+                add_tab(to_write);
+                add_tab(to_write);
+
+                to_write += "Il2CppAssembly * assembly;\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "for (auto assembly_ : assembly_list) {\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "if (assembly_->aname.name == klass->get_assembly_name())\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "assembly = assembly_;\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "}\n";
+
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "Il2CppClass* klass_ = il2cpp_api::il2cpp_class_from_name(il2cpp_api::il2cpp_assembly_get_image(assembly), ";
+                to_write += "\"";
+                to_write += klass->get_name_space().c_str();
+                to_write += "\"";
+                to_write += ", ";
+                to_write += "\"";
+                to_write += klass->get_name().c_str();
+                to_write += "\"";
+                to_write += "));\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "FieldInfo* info = il2cpp_api::il2cpp_class_get_field_from_name(klass_, ";
+                to_write += "\"";
+                to_write += field.get_name();
+                to_write += "\"";
+                to_write += ");\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += type_to_cpp(field.get_type()) + " value;\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "il2cpp_api::il2cpp_field_static_get_value(info, &value);\n";
+                add_tab(to_write);
+                add_tab(to_write);
+                to_write += "return value;\n";
+                add_tab(to_write);
+                to_write += "}\n";
             }
         }
 

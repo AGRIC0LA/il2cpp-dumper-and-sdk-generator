@@ -53,15 +53,16 @@ public:
 			parametrs.push_back(par);
 		}
 		rva = (uintptr_t)method_info->methodPointer - module_base;
-	}
 
-	std::string& get_name() {
 		replace(name, ".", "_");
 		replace(name, "/", "_");
 		replace(name, "<", "_");
 		replace(name, ">", "_");
 		replace(name, "`", "_");
 		replace(name, "|", "_");
+	}
+
+	std::string& get_name() {
 		return name;
 	}
 
@@ -106,15 +107,16 @@ public:
 		if ((type->attrs) & (FIELD_ATTRIBUTE_STATIC))
 			is_static = true;
 		offset = il2cpp_api::il2cpp_field_get_offset(field_info);
-	}
 
-	std::string& get_name() {
 		replace(name, ".", "_");
 		replace(name, "/", "_");
 		replace(name, "<", "_");
 		replace(name, ">", "_");
 		replace(name, "`", "_");
 		replace(name, "|", "_");
+	}
+
+	std::string& get_name() {
 		return name;
 	}
 
@@ -209,6 +211,18 @@ public:
 		parse_methods();
 		parse_fields();
 		parse_properties();
+		replace(name, ".", "_");
+		replace(name, "/", "_");
+		replace(name, "<", "_");
+		replace(name, ">", "_");
+		replace(name, "`", "_");
+		replace(name, "|", "_");
+		replace(name_space, ".", "_");
+		replace(name_space, "/", "_");
+		replace(name_space, "<", "_");
+		replace(name_space, ">", "_");
+		replace(name_space, "`", "_");
+		replace(name_space, "|", "_");
 	}
 
 	size_t get_method_count() {
@@ -228,22 +242,10 @@ public:
 	}
 
 	std::string& get_name() {
-		replace(name, ".", "_");
-		replace(name, "/", "_");
-		replace(name, "<", "_");
-		replace(name, ">", "_");
-		replace(name, "`", "_");
-		replace(name, "|", "_");
 		return name;
 	}
 
 	std::string& get_name_space() {
-		replace(name_space, ".", "_");
-		replace(name_space, "/", "_");
-		replace(name_space, "<", "_");
-		replace(name_space, ">", "_");
-		replace(name_space, "`", "_");
-		replace(name_space, "|", "_");
 		return name_space;
 	}
 
