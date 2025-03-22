@@ -53,7 +53,9 @@ public:
             to_write += type_to_cpp(method.get_return_type()) + " " + method.get_name();
             to_write += "(";
             if (!method.get_is_static())
-                to_write += "uintptr_t this_, ";
+                to_write += "uintptr_t this_";
+            if (!method.get_is_static() && method.get_parametrs_count() > 0)
+                to_write += ", ";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
@@ -66,7 +68,9 @@ public:
             to_write += "typedef " + type_to_cpp(method.get_return_type()) + "(__fastcall* hui_t)";
             to_write += "(";
             if (!method.get_is_static())
-                to_write += "uintptr_t, "; 
+                to_write += "uintptr_t"; 
+            if (!method.get_is_static() && method.get_parametrs_count() > 0)
+                to_write += ", ";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
@@ -81,7 +85,9 @@ public:
             add_tab(to_write);
             to_write += "return hui(";
             if (!method.get_is_static())
-                to_write += "this_, ";
+                to_write += "this_";
+            if (!method.get_is_static() && method.get_parametrs_count() > 0)
+                to_write += ", ";
             for (int i = 0; i < method.get_parametrs_count(); i++) {
                 parametr par = method.get_parametr(i);
                 if (i != 0 && i != method.get_parametrs_count())
