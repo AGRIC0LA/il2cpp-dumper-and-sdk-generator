@@ -119,7 +119,7 @@ public:
                 add_tab(to_write);
                 add_tab(to_write);
 
-                to_write += "Il2CppAssembly * assembly;\n";
+                to_write += "Il2CppAssembly* assembly = nullptr;\n";
                 add_tab(to_write);
                 add_tab(to_write);
                 to_write += "for (auto assembly_ : assembly_list) {\n";
@@ -140,6 +140,8 @@ public:
                 add_tab(to_write);
                 to_write += "}\n";
 
+                add_tab(to_write);
+                add_tab(to_write);
                 to_write += "if (!assembly) return 0;\n";
 
                 add_tab(to_write);
