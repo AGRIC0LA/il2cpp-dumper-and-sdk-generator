@@ -148,7 +148,7 @@ public:
                 to_write += "\"";
                 to_write += klass->get_name().c_str();
                 to_write += "\"";
-                to_write += "));\n";
+                to_write += ");\n";
                 add_tab(to_write);
                 add_tab(to_write);
                 to_write += "FieldInfo* info = il2cpp_api::il2cpp_class_get_field_from_name(klass_, ";
