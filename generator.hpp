@@ -115,7 +115,7 @@ public:
             }
             else {
                 add_tab(to_write);
-                to_write += type_to_cpp(field.get_type()) + " " + field.get_name() + "(uintptr_t this_) {\n";
+                to_write += type_to_cpp(field.get_type()) + " " + field.get_name() + "() {\n";
                 add_tab(to_write);
                 add_tab(to_write);
 
