@@ -36,10 +36,11 @@ public:
         for (int i = 0; i < klass->get_method_count(); i++) {
             int need_to_skip = false;
             c_Method method = klass->get_method(i);
-            for (auto meth : generated_methodes) {
-                if (meth.get_name() == method.get_name())
+            for (auto methd : generated_methodes) {
+                if (methd.get_name() == method.get_name())
                     need_to_skip = true;
             }
+            if (!method.get_name().size()) continue;
             if (need_to_skip) continue;
             add_tab(to_write)
                 to_write += "uintptr_t " + method.get_name() + "_va" + "() {\n";
@@ -102,6 +103,7 @@ public:
 
         for (int i = 0; i < klass->get_field_count(); i++) {
             c_Field field = klass->get_field(i);
+            if (!field.get_name().size()) continue;
             if (!field.get_is_static()) {
                 add_tab(to_write);
                 to_write += type_to_cpp(field.get_type()) + "* " + field.get_name() + "(uintptr_t this_) {\n";
