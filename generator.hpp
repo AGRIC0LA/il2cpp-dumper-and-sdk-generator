@@ -140,6 +140,8 @@ public:
                 add_tab(to_write);
                 to_write += "}\n";
 
+                to_write += "if (!assembly) return 0;\n";
+
                 add_tab(to_write);
                 add_tab(to_write);
                 to_write += "Il2CppClass* klass_ = il2cpp_api::il2cpp_class_from_name(il2cpp_api::il2cpp_assembly_get_image(assembly), ";
