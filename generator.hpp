@@ -15,13 +15,15 @@ public:
 		if (type.find("Int64") != std::string::npos)
 			return "int64_t";
 		if (type.find("Double") != std::string::npos)
-			return "float";
+			return "double";
 		if (type.find("Vector3") != std::string::npos)
 			return "Vector3";
 		if (type.find("Quaternion") != std::string::npos)
 			return "Quaternion";
 		if (type.find("Boolean") != std::string::npos)
 			return "bool";
+        if (type.find("Single") != std::string::npos)
+            return "float";
 		return "uintptr_t";
 	}
 
