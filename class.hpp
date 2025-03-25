@@ -60,6 +60,7 @@ public:
 		replace(name, ">", "_");
 		replace(name, "`", "_");
 		replace(name, "|", "_");
+		replace(name, ",", "_");
 	}
 
 	std::string& get_name() {
@@ -114,6 +115,7 @@ public:
 		replace(name, ">", "_");
 		replace(name, "`", "_");
 		replace(name, "|", "_");
+		replace(name, ",", "_");
 	}
 
 	std::string& get_name() {
@@ -217,12 +219,14 @@ public:
 		replace(name, ">", "_");
 		replace(name, "`", "_");
 		replace(name, "|", "_");
+		replace(name, ",", "_");
 		replace(name_space, ".", "_");
 		replace(name_space, "/", "_");
 		replace(name_space, "<", "_");
 		replace(name_space, ">", "_");
 		replace(name_space, "`", "_");
 		replace(name_space, "|", "_");
+		replace(name_space, ",", "_");
 	}
 
 	size_t get_method_count() {
