@@ -49,6 +49,14 @@ public:
 		for (int i = 0; i < param_count; i++) {
 			par.name = il2cpp_api::il2cpp_method_get_param_name(method_info, i);
 			par.type = il2cpp_api::il2cpp_type_get_name(il2cpp_api::il2cpp_method_get_param(method_info, i));
+			replace(par.name, ".", "_");
+			replace(par.name, "/", "_");
+			replace(par.name, "<", "_");
+			replace(par.name, ">", "_");
+			replace(par.name, "`", "_");
+			replace(par.name, "|", "_");
+			replace(par.name, ",", "_");
+			replace(par.name, "template", "templ");
 
 			parametrs.push_back(par);
 		}
@@ -61,6 +69,7 @@ public:
 		replace(name, "`", "_");
 		replace(name, "|", "_");
 		replace(name, ",", "_");
+		replace(name, "template", "templ");
 	}
 
 	std::string& get_name() {
@@ -116,6 +125,7 @@ public:
 		replace(name, "`", "_");
 		replace(name, "|", "_");
 		replace(name, ",", "_");
+		replace(name, "template", "templ");
 	}
 
 	std::string& get_name() {
@@ -220,6 +230,7 @@ public:
 		replace(name, "`", "_");
 		replace(name, "|", "_");
 		replace(name, ",", "_");
+		replace(name, "template", "templ");
 		replace(name_space, ".", "_");
 		replace(name_space, "/", "_");
 		replace(name_space, "<", "_");
@@ -227,6 +238,7 @@ public:
 		replace(name_space, "`", "_");
 		replace(name_space, "|", "_");
 		replace(name_space, ",", "_");
+		replace(name_space, "template", "templ");
 	}
 
 	size_t get_method_count() {
