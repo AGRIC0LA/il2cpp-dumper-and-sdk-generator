@@ -130,7 +130,7 @@ public:
                 to_write += "\"";
                 to_write += klass->get_assembly_name();
                 to_write += "\"";
-                to_write += ") == 0);\n";
+                to_write += ") == 0)\n";
                 add_tab(to_write);
                 add_tab(to_write);
                 add_tab(to_write);
